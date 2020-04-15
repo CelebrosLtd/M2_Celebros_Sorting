@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+ * Celebros
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish correct extension functionality.
+ * If you wish to customize it, please contact Celebros.
+ *
+ ******************************************************************************
+ * @category    Celebros
+ * @package     Celebros_Sorting
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <conversionpro>
+            <display_settings>
+                <sorting_mapping>0^1^Price_desc^Price;1^1^Price_asc^Price;0^1^Bestsellers^Bestsellers;0^1^Score_curated^Score_curated;0^1^New^news_from_date;0^1^Most_viewed^Most_viewed;0^1^Score_review^Score_review</sorting_mapping>
+            </display_settings>
+        </conversionpro>
+    </default>
+</config>
