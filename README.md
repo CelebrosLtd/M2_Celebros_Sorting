@@ -1,4 +1,3 @@
-Celebros - Custom Sortings
+Celebros Main - Custom Sortings
 
 -------------------------------
-0.9.0 - beta

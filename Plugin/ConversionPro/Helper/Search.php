@@ -13,40 +13,44 @@
  */
 namespace Celebros\Sorting\Plugin\ConversionPro\Helper;
 
+use Celebros\Sorting\Helper\Data as Helper;
+
 class Search
 {
-    public $scopeConfig;
-    public $sortings;
+    const SORT_ORDER_VAR = 'product_list_order';
+    
+    public $helper;
+    public $request;
     
     /**
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Celebros\Sorting\Helper\Data $helper
+     * @param \Magento\Framework\App\RequestInterface $request
      * @return void
      */
     public function __construct(
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+        Helper $helper,
+        \Magento\Framework\App\RequestInterface $request
     ) {
-        $this->scopeConfig = $scopeConfig;
-    }
-    
-    protected function collectSortingMaps()
-    {
-        $sortingStrings = $this->scopeConfig->getValue('conversionpro/display_settings/sorting_mapping', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-        $sortings = explode(";", $sortingStrings);
-        foreach ($sortings as $key => $sorting) {
-            $mapping = explode("^", $sorting);
-            if (isset($mapping[3]) && $mapping[3]) {
-                $this->sortings[strtolower($mapping[3])] = strtolower($mapping[2]);
-            }
-        }
+        $this->helper = $helper;
+        $this->request = $request;
     }
    
+    protected function getRequestSortOrder()
+    {
+        return (string)$this->request->getParam(self::SORT_ORDER_VAR);
+    }
     
     public function afterSortOrderMap(\Celebros\ConversionPro\Helper\Search $search, $order)
     {
-        $this->collectSortingMaps();
-        if (isset($this->sortings[$order])) {
-            return $this->sortings[$order];
-        }        
+        $mapOrder = $this->helper->getMapppingsByParamName(
+            'fieldname',
+            $this->getRequestSortOrder()
+        );
+        
+        if ($mapOrder) {
+            return strtolower($mapOrder->getFieldname());
+        }
+        
         return $order;
     }
 }

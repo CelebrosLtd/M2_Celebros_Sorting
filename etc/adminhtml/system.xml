@@ -15,8 +15,10 @@
     <system>
         <section id="conversionpro">
             <group id="display_settings">
-                <field id="sorting_mapping" translate="label" type="text" sortOrder="99920" showInDefault="1" showInWebsite="0" showInStore="1">
+                <field id="sorting_mapping_grid" translate="label" sortOrder="99921" showInDefault="1" showInWebsite="0" showInStore="1">
                     <label>Sorting Mapping</label>
+                    <frontend_model>Celebros\Sorting\Block\Adminhtml\Form\Field\SortingMapping</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                 </field>
             </group>
         </section>

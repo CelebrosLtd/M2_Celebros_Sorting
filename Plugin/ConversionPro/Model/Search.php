@@ -13,59 +13,49 @@
  */
 namespace Celebros\Sorting\Plugin\ConversionPro\Model;
 
+use Celebros\Sorting\Helper\Data as Helper;
+use Magento\Framework\Simplexml\Element as XmlElement;
+
 class Search
 {
-    public $scopeConfig;
-    public $sortings;
+    /**
+     * @var \Celebros\Sorting\Helper\Data $helper
+     */
+    public $helper;
     
     /**
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Celebros\Sorting\Helper\Data $helper
      * @return void
      */
     public function __construct(
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+        Helper $helper
     ) {
-        $this->scopeConfig = $scopeConfig;
+        $this->helper = $helper;
     }
     
-    protected function collectSortingMaps()
-    {
-        $sortingStrings = $this->scopeConfig->getValue('conversionpro/display_settings/sorting_mapping', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-        $sortings = explode(";", $sortingStrings);
-        foreach ($sortings as $key => $sorting) {
-            $mapping = explode("^", $sorting);
-            if (isset($mapping[2]) && $mapping[2]) {
-                $this->sortings[$mapping[2]] = [
-                    'NumericSort' => $mapping[1],
-                    'Ascending' => $mapping[0],
-                    'ReplaceFieldName' => $mapping[3]
-                ];
-            }
-        }
-    }
-    
-    public function afterCreateSearchInfoXml(\Celebros\ConversionPro\Model\Search $search, $return)
-    {
-        $this->collectSortingMaps(); //print_r($this->sortings);die;
+    /**
+     * @param \Celebros\ConversionPro\Model\Search $search
+     * @param \Magento\Framework\Simplexml\Element $return
+     * @return \Magento\Framework\Simplexml\Element
+     */
+    public function afterCreateSearchInfoXml(
+        \Celebros\ConversionPro\Model\Search $search,
+        XmlElement $return
+    ) {
         $fieldName = $return->SortingOptions->getAttribute('FieldName');
-        if (isset($this->sortings[$fieldName])) {
-            $numeric = $this->sortings[$fieldName]['NumericSort'] ? : false;
-            $asc = $this->sortings[$fieldName]['Ascending'] ? : false;
-            if ($asc) {
-                $asc = $asc ? 'true' : 'false';
-                $return->SortingOptions->setAttribute('Ascending', $asc);
-            }
-            
-            if ($numeric) {
-                $numeric = $numeric ? 'true' : 'false';
-                $return->SortingOptions->setAttribute('NumericSort', $numeric);
-            }
-
-            if (isset($this->sortings[$fieldName]['ReplaceFieldName'])) {
-                $return->SortingOptions->setAttribute('FieldName', $this->sortings[$fieldName]['ReplaceFieldName']);
+        $mapping = $this->helper->getMapppingsByParamName('fieldname', $fieldName);
+        
+        if ($mapping) {
+            $asc = $mapping->getDirection() ? 'true' : 'false';
+            $return->SortingOptions->setAttribute('Ascending', $asc);
+            $numeric = $mapping->getIsNumeric() ? 'true' : 'false';
+            $return->SortingOptions->setAttribute('NumericSort', $numeric);
+            if ($fieldNameApi = $mapping->getFieldnameApi()) {
+                $return->SortingOptions->setAttribute('FieldName', $fieldNameApi);
             }
         }
         
+        /* todo: send $return to conversionpro debug */
         return $return;
     }
 }
