@@ -2,18 +2,18 @@
     "name": "celebros/module-sorting",
     "description": "Celebros Sorting",
     "type": "magento2-module",
-    "version": "0.9.2",
+    "version": "0.9.3",
     "license": [
         "OSL-3.0",
         "AFL-3.0"
     ],
     "require": {
-        "php": "~5.6.5|7.0.2|7.0.4|~7.0.6|7.1.*|7.2.*|7.3.*"
+        "php": "~5.6.5|7.0.2|7.0.4|~7.0.6|7.1.*|7.2.*|7.3.*|7.4.*"
     },
     "autoload": {
         "files": [ "registration.php" ],
         "psr-4": {
-            "Celebros\\Main\\": ""
+            "Celebros\\Sorting\\": ""
         }
     }
 }
