@@ -42,18 +42,21 @@ class Search
         \Celebros\ConversionPro\Model\Search $search,
         XmlElement $return
     ) {
-        $fieldName = $return->SortingOptions->getAttribute('FieldName');
-        $mapping = $this->helper->getMapppingsByParamName('fieldname', $fieldName);
-        
-        if ($mapping) {
-            $asc = $mapping->getDirection() ? 'true' : 'false';
-            $return->SortingOptions->setAttribute('Ascending', $asc);
-            $numeric = $mapping->getIsNumeric() ? 'true' : 'false';
-            $return->SortingOptions->setAttribute('NumericSort', $numeric);
-            if ($fieldNameApi = $mapping->getFieldnameApi()) {
-                $return->SortingOptions->setAttribute('FieldName', $fieldNameApi);
+        if (isset($return->SortingOptions)) {
+            $fieldName = $return->SortingOptions->getAttribute('FieldName');
+            $mapping = $this->helper->getMapppingsByParamName('fieldname', $fieldName);
+
+            if ($mapping) {
+                $asc = $mapping->getDirection() ? 'true' : 'false';
+                $return->SortingOptions->setAttribute('Ascending', $asc);
+                $numeric = $mapping->getIsNumeric() ? 'true' : 'false';
+                $return->SortingOptions->setAttribute('NumericSort', $numeric);
+                if ($fieldNameApi = $mapping->getFieldnameApi()) {
+                    $return->SortingOptions->setAttribute('FieldName', $fieldNameApi);
+                }
             }
         }
+
         
         /* todo: send $return to conversionpro debug */
         return $return;
