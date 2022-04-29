@@ -17,6 +17,7 @@ use Magento\Framework\App\Helper\Context;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\DataObject;
+use Magento\Store\Model\ScopeInterface;
 
 class Data extends AbstractHelper
 {
@@ -39,18 +40,18 @@ class Data extends AbstractHelper
     {
         return (string) $this->scopeConfig->getValue(
             self::XML_PATH_SORTING_MAPPING,
-            ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
+            ScopeInterface::SCOPE_STORE,
             $store
         );
     }
-    
+
     public function getMappingArray($store = null)
     {
         return (array) $this->jsonHelper->jsonDecode(
             $this->getMappingValue($store)
         );
     }
-    
+
     public function getMapppingsByParamName(
         string $paramName,
         string $value
@@ -65,7 +66,7 @@ class Data extends AbstractHelper
                 }
             }
         }
-        
+
         return $return;
     }
 }
