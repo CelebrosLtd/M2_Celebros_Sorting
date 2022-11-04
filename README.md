@@ -1,11 +1,4 @@
-Celebros - Custom Sortings
+Celebros Custom Sorting
 
--------------------------------
-
-0.9.2 - Relevancy filed has been added to default configuration
-
-0.9.3 - tech fix
-
-0.9.4 - issue with graphql has been fixed
-
-0.9.5 - SSUITE-822: Fix scope of sorting mapping from Default to Store
+Replaces sorting attributes with a predefined Celebros sorting options. 
+The plugin makes Celebros Search compatible with Amasty Improved Sorting extension.

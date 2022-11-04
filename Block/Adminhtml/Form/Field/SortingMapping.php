@@ -1,15 +1,11 @@
 <?php
-/*
- * Celebros
+/**
+ * Celebros (C) 2022. All Rights Reserved.
  *
  * DISCLAIMER
  *
  * Do not edit or add to this file if you wish correct extension functionality.
  * If you wish to customize it, please contact Celebros.
- *
- ******************************************************************************
- * @category    Celebros
- * @package     Celebros_Sorting
  */
 namespace Celebros\Sorting\Block\Adminhtml\Form\Field;
 
@@ -17,6 +13,11 @@ use Magento\Config\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray;
 
 class SortingMapping extends AbstractFieldArray
 {
+    /**
+     * Prepare sorting mapping form for rendering
+     *
+     * @return void
+     */
     protected function _prepareToRender()
     {
         $this->addColumn('direction', ['label' => __('Ascending'), 'class' => 'required-entry']);
