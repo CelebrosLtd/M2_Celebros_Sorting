@@ -1,40 +1,48 @@
 <?php
-/*
- * Celebros
+/**
+ * Celebros (C) 2022. All Rights Reserved.
  *
  * DISCLAIMER
  *
  * Do not edit or add to this file if you wish correct extension functionality.
  * If you wish to customize it, please contact Celebros.
- *
- ******************************************************************************
- * @category    Celebros
- * @package     Celebros_Sorting
  */
 namespace Celebros\Sorting\Helper;
 
 use Magento\Framework\App\Helper\Context;
-use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\DataObject;
+use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Store\Model\ScopeInterface;
 
 class Data extends AbstractHelper
 {
-    const XML_PATH_SORTING_MAPPING = 'conversionpro/display_settings/sorting_mapping_grid';
+    public const XML_PATH_SORTING_MAPPING = 'conversionpro/display_settings/sorting_mapping_grid';
 
+    /**
+     * @var Json
+     */
+    private $json;
+
+    /**
+     * Data constructor
+     *
+     * @param Context $context
+     * @param Json $json
+     */
     public function __construct(
         Context $context,
-        \Magento\Framework\Json\Helper\Data $jsonHelper
+        Json $json
     ) {
-        $this->jsonHelper = $jsonHelper;
+        $this->json = $json;
         parent::__construct($context);
     }
 
     /**
-     * @param string $scopeType
-     * @param string|null $scopeCode
-     * @return int|null
+     * Get sorting mapping value as string
+     *
+     * @param int|string|null $store
+     * @return string
      */
     public function getMappingValue($store = null) : string
     {
@@ -45,13 +53,26 @@ class Data extends AbstractHelper
         );
     }
 
-    public function getMappingArray($store = null)
+    /**
+     * Get sorting mapping value as array
+     *
+     * @param null|int|string $store
+     * @return array
+     */
+    public function getMappingArray($store = null): array
     {
-        return (array) $this->jsonHelper->jsonDecode(
+        return (array) $this->json->unserialize(
             $this->getMappingValue($store)
         );
     }
 
+    /**
+     * Get sorting mapping for specific sorting field
+     *
+     * @param string $paramName
+     * @param string $value
+     * @return DataObject|null
+     */
     public function getMapppingsByParamName(
         string $paramName,
         string $value
