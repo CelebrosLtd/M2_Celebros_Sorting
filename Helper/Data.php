@@ -80,7 +80,7 @@ class Data extends AbstractHelper
         $return = null;
         foreach ($this->getMappingArray() as $mapping) {
             if (isset($mapping[$paramName])
-            && strtolower($mapping[$paramName]) == strtolower($value)) {
+            && strtolower((string) $mapping[$paramName]) == strtolower($value)) {
                 $return = new DataObject();
                 foreach ($mapping as $key => $param) {
                     $return->setData($key, $param);

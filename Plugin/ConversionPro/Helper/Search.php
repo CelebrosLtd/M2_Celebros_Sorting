@@ -66,7 +66,7 @@ class Search
         );
 
         if ($mapOrder) {
-            return strtolower($mapOrder->getFieldname());
+            return strtolower((string) $mapOrder->getFieldname());
         }
 
         return $order;
