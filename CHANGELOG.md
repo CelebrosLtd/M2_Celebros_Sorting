@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.9.7
+
+### FIXES
+
+- fix: Change null to strict string defined function call PHP 8.1 in https://github.com/CelebrosLtd/M2_Celebros_Sorting/pull/3
+
 ## 0.9.6
 
 ### UPDATES

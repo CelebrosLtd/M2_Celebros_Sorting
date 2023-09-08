@@ -1,6 +1,6 @@
 <?php
 /**
- * Celebros (C) 2022. All Rights Reserved.
+ * Celebros (C) 2023. All Rights Reserved.
  *
  * DISCLAIMER
  *
@@ -66,7 +66,7 @@ class Search
         );
 
         if ($mapOrder) {
-            return strtolower($mapOrder->getFieldname());
+            return strtolower((string) $mapOrder->getFieldname());
         }
 
         return $order;
